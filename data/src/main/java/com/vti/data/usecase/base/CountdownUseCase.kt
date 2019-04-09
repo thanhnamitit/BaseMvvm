@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 abstract class CountdownUseCase : UseCase {
 
     @Inject
-    internal var fetcher: Fetcher? = null
+    lateinit var fetcher: Fetcher
 
     val timeTick = MutableLiveData<Result<Long>>()
     private var disposableWeakReference = WeakReference<Disposable>(null)
@@ -45,14 +45,14 @@ abstract class CountdownUseCase : UseCase {
         }
         val schedule = Observable.interval(delay, 1, timeUnit)
             .observeOn(AndroidSchedulers.mainThread())
-        val target = fetcher!!.countdown(schedule, ScheduleCallback(), period)
+        val target = fetcher.countdown(schedule, ScheduleCallback(), period)
         disposableWeakReference = WeakReference(target)
     }
 
     override fun cancel() {
         val target = disposableWeakReference.get()
         if (target != null && !target.isDisposed) {
-            fetcher!!.cancelRequest(target)
+            fetcher.cancelRequest(target)
             target.dispose()
             disposableWeakReference = WeakReference<Disposable>(null)
         }

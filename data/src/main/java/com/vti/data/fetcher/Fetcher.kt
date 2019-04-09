@@ -25,7 +25,7 @@ class Fetcher @Inject constructor() {
         val target = flowable
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { subscription -> resultListener.onRequestStart() }
+            .doOnSubscribe { _ -> resultListener.onRequestStart() }
             .subscribe({ resultListener.onRequestSuccess(it) },
                 { resultListener.onRequestError(it) })
         disposable.add(target)
@@ -37,7 +37,7 @@ class Fetcher @Inject constructor() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError { throwable -> throwable.printStackTrace() }
-            .doOnSubscribe { disposable -> resultListener.onRequestStart() }
+            .doOnSubscribe { _ -> resultListener.onRequestStart() }
             .subscribe({ resultListener.onRequestSuccess(it) },
                 { resultListener.onRequestError(it) })
         disposable.add(target)
@@ -48,7 +48,7 @@ class Fetcher @Inject constructor() {
         val target = completable
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { disposable -> resultListener.onRequestStart() }
+            .doOnSubscribe { _ -> resultListener.onRequestStart() }
             .subscribe(
                 object : Action {
                     override fun run() {
@@ -64,7 +64,7 @@ class Fetcher @Inject constructor() {
         val target = single
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { disposable -> resultListener.onRequestStart() }
+            .doOnSubscribe { _ -> resultListener.onRequestStart() }
             .subscribe({ resultListener.onRequestSuccess(it) },
                 { resultListener.onRequestError(it) })
         disposable.add(target)
@@ -74,7 +74,7 @@ class Fetcher @Inject constructor() {
     fun countdown(observable: Observable<Long>, countdownListener: CountdownListener, period: Long): Disposable {
         val target = observable
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { disposable -> countdownListener.onStart() }
+            .doOnSubscribe { _ -> countdownListener.onStart() }
             .doOnNext { calculatedTime -> countdownListener.onTick(period - calculatedTime) }
             .takeUntil { calculatedTime -> calculatedTime == period }
             .subscribe()
@@ -83,7 +83,7 @@ class Fetcher @Inject constructor() {
     }
 
     fun cancelAllRequest() {
-        //        disposable.clear();
+        disposable.clear();
     }
 
     fun cancelRequest(request: Disposable) {
