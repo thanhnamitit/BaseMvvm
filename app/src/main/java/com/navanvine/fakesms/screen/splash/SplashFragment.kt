@@ -6,14 +6,13 @@ import com.navanvine.fakesms.base.BaseFragment
 import com.navanvine.fakesms.databinding.FragmentSplashBinding
 
 class SplashFragment : BaseFragment<FragmentSplashBinding, SplashViewModel>() {
+    override fun getViewModelType(): Class<SplashViewModel> =SplashViewModel::class.java
+
+    override fun getLayoutId() = R.layout.fragment_splash
+
     companion object {
         const val DELAY_TIME = 100L
     }
-
-    override val viewModelType: Class<SplashViewModel>
-        get() = SplashViewModel::class.java
-    override val layoutId: Int
-        get() = R.layout.fragment_splash
 
     override fun onViewReady() {
         super.onViewReady()

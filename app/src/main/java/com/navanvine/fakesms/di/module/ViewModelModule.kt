@@ -1,7 +1,7 @@
 package com.navanvine.fakesms.di.module
 
 import androidx.lifecycle.ViewModel
-import com.navanvi.base.di.viewmodel.ViewModelKey
+import com.vti.base.di.viewmodel.ViewModelKey
 import com.navanvine.fakesms.screen.MainViewModel
 import com.navanvine.fakesms.screen.main.FakeSmsViewModel
 import com.navanvine.fakesms.screen.splash.SplashViewModel

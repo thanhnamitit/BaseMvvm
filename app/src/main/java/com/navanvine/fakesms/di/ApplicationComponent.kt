@@ -1,6 +1,6 @@
 package com.navanvine.fakesms.di
 
-import com.navanvi.base.di.module.ViewModelFactoryModule
+import com.vti.base.di.module.ViewModelFactoryModule
 import com.navanvine.fakesms.di.module.ActivityModule
 import com.navanvine.fakesms.di.module.AppModule
 import com.navanvine.fakesms.di.module.FragmentModule

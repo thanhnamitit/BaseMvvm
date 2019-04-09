@@ -19,22 +19,24 @@
                 android:textSize="@dimen/font_size_xxhuge"
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"/>
-        <ImageView android:layout_width="0dp"
-                   android:layout_height="0dp"
-                   app:layout_constraintLeft_toLeftOf="parent"
-                   app:layout_constraintWidth_percent="0.3"
-                   android:layout_marginBottom="@dimen/spacing_xxxlarge"
-                   android:src="@mipmap/ic_launcher"
-                   app:layout_constraintRight_toRightOf="parent"
-                   app:layout_constraintBottom_toTopOf="@id/tv_app_name"
-                   app:layout_constraintDimensionRatio="1:1"/>
-        <TextView android:layout_width="wrap_content"
-                  app:layout_constraintTop_toBottomOf="@id/tv_app_name"
-                  app:layout_constraintLeft_toLeftOf="parent"
-                  app:layout_constraintRight_toRightOf="parent"
-                  android:layout_marginTop="@dimen/spacing_medium"
-                  android:textColor="@android:color/white"
-                  android:text="@string/app_slogan"
-                  android:layout_height="wrap_content"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintWidth_percent="0.3"
+                android:layout_marginBottom="@dimen/spacing_xxxlarge"
+                android:src="@mipmap/ic_launcher"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_app_name"
+                app:layout_constraintDimensionRatio="1:1"/>
+        <TextView
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_app_name"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:textColor="@android:color/white"
+                android:text="@string/app_slogan"
+                android:layout_height="wrap_content"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

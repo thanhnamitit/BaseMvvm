@@ -3,16 +3,17 @@ package com.navanvine.fakesms.base
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation.findNavController
-import com.navanvi.base.mvvm.view.BaseMvvmFragment
-import com.navanvi.base.mvvm.viewmodel.BaseViewModel
+import com.vti.base.mvvm.view.BaseMvvmFragment
+import com.vti.base.mvvm.viewmodel.BaseViewModel
 import com.navanvine.fakesms.BR
 import com.navanvine.fakesms.R
 import com.navanvine.fakesms.screen.MainActivity
 
 abstract class BaseFragment<BINDING : ViewDataBinding, VM : BaseViewModel> : BaseMvvmFragment<BINDING, VM>() {
     val mainViewModel by lazy { (activity as MainActivity).viewModel }
-    override val variableId: Int
-        get() = BR.viewModel
+    override fun getLayoutVariableId(): Int {
+        return BR.viewModel
+    }
 
     fun navigate(id: Int) {
         val options = NavOptions.Builder()
