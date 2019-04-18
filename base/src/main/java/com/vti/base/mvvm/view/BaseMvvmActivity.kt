@@ -5,33 +5,29 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import com.vti.base.extension.dagger.BaseDaggerActivity
+import com.vti.base.extension.dagger.BaseKoinActivity
 import com.vti.base.extension.livedata.event.EventObserver
 import com.vti.base.mvvm.SimpleLifecycleOwnerProvider
 import com.vti.base.mvvm.viewmodel.BaseViewModel
-import com.vti.base.util.observable.NetworkStateObservable
-import javax.inject.Inject
+import com.vti.base.util.observable.NetworkStatusObservable
+import org.koin.android.viewmodel.ext.android.getViewModel
+import kotlin.reflect.KClass
 
-abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> : BaseDaggerActivity(),
+abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> : BaseKoinActivity(),
     SimpleLifecycleOwnerProvider {
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    abstract fun getViewModelType(): Class<VM>
+    abstract fun getViewModelType(): KClass<VM>
     abstract fun getLayoutId(): Int
     abstract fun getLayoutVariableId(): Int
 
     val binding by lazy { DataBindingUtil.setContentView(this, getLayoutId()) as BINDING }
-    val viewModel: VM by lazy {
-        ViewModelProviders.of(this@BaseMvvmActivity, viewModelFactory).get(getViewModelType())
-    }
+    val viewModel: VM by lazy { getViewModel(getViewModelType()) }
+
     val isForeground
         get() = viewModel.isForeground
 
 
-    private val networkStateObservable by lazy { NetworkStateObservable(this) }
+    private val networkStateObservable by lazy { NetworkStatusObservable(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(parseBundle(savedInstanceState))
@@ -42,7 +38,7 @@ abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> :
         onViewReady()
     }
 
-    private fun setupFeature() {
+    protected open fun setupFeature() {
         if (isNeedToObserveToNetworkState()) {
             observeToNetworkState()
         }
@@ -54,10 +50,8 @@ abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> :
     open fun onReceiveEvent(event: Int) {}
     open fun setupViewModel() {
         if (viewModel.hasNotSetupYet()) {
-            viewModel.normalEventNavigator.observe(this,
-                EventObserver { onReceiveEvent(it) })
-            viewModel.expressEventNavigator.observeUntilDestroyed(this,
-                EventObserver { onReceiveEvent(it) })
+            viewModel.normalEventNavigator.observe(this, EventObserver { onReceiveEvent(it) })
+            viewModel.expressEventNavigator.observeUntilDestroyed(this, EventObserver { onReceiveEvent(it) })
         }
         lifecycle.addObserver(viewModel)
     }

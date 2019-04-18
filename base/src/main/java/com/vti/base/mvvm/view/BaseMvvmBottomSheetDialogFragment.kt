@@ -6,28 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import com.vti.base.extension.dagger.BaseDaggerBottomSheetDialogFragment
+import com.vti.base.extension.dagger.BaseKoinBottomSheetDialogFragment
 import com.vti.base.mvvm.decorator.MvvmComponent
 import com.vti.base.mvvm.decorator.MvvmComponentDecorator
 import com.vti.base.mvvm.viewmodel.BaseViewModel
-import javax.inject.Inject
+import org.koin.android.viewmodel.ext.android.getViewModel
 
 abstract class BaseMvvmBottomSheetDialogFragment<BINDING : ViewDataBinding, VM : BaseViewModel> :
-    BaseDaggerBottomSheetDialogFragment(),
-    MvvmComponent<BINDING, VM> {
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    BaseKoinBottomSheetDialogFragment(), MvvmComponent<BINDING, VM> {
     override lateinit var binding: BINDING
-    override val viewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory).get(getViewModelType())
+    override val viewModel: VM by lazy {
+        getViewModel(getViewModelType())
     }
     private val fragmentDecorator by lazy { MvvmComponentDecorator(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentDecorator.setupViewModel()
+        fragmentDecorator.setupViewModel(lifecycle)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

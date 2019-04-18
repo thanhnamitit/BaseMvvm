@@ -6,27 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import com.vti.base.extension.dagger.BaseDaggerDialogFragment
-import com.vti.base.mvvm.decorator.MvvmComponentDecorator
+import com.vti.base.extension.dagger.BaseKoinDialogFragment
 import com.vti.base.mvvm.decorator.MvvmComponent
+import com.vti.base.mvvm.decorator.MvvmComponentDecorator
 import com.vti.base.mvvm.viewmodel.BaseViewModel
-import javax.inject.Inject
+import org.koin.android.viewmodel.ext.android.getViewModel
 
-abstract class BaseMvvmDialogFragment<BINDING : ViewDataBinding, VM : BaseViewModel> : BaseDaggerDialogFragment(),
+abstract class BaseMvvmDialogFragment<BINDING : ViewDataBinding, VM : BaseViewModel> : BaseKoinDialogFragment(),
     MvvmComponent<BINDING, VM> {
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     override lateinit var binding: BINDING
-    override val viewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory).get(getViewModelType())
+    override val viewModel: VM by lazy {
+        getViewModel(getViewModelType())
     }
     private val fragmentDecorator by lazy { MvvmComponentDecorator(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentDecorator.setupViewModel()
+        fragmentDecorator.setupViewModel(lifecycle)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

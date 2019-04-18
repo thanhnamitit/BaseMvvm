@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import com.vti.data.fetcher.Fetcher
 import com.vti.data.param.response.wrapper.Result
 import io.reactivex.disposables.Disposable
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import java.lang.ref.WeakReference
-import javax.inject.Inject
 
 abstract class BaseUseCase<R, P> : UseCase {
 
-    @Inject
-    lateinit var fetcher: Fetcher
+    val fetcher: Fetcher by inject()
 
     private var disposableWeakReference = WeakReference<Disposable>(null)
 

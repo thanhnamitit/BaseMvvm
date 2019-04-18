@@ -7,15 +7,13 @@ import com.vti.data.param.response.wrapper.Result
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-
-import javax.inject.Inject
+import org.koin.core.inject
 import java.lang.ref.WeakReference
 import java.util.concurrent.TimeUnit
 
 abstract class CountdownUseCase : UseCase {
 
-    @Inject
-    lateinit var fetcher: Fetcher
+    val fetcher: Fetcher by inject()
 
     val timeTick = MutableLiveData<Result<Long>>()
     private var disposableWeakReference = WeakReference<Disposable>(null)
@@ -43,8 +41,7 @@ abstract class CountdownUseCase : UseCase {
         if (delay < 0) {
             delay = 0
         }
-        val schedule = Observable.interval(delay, 1, timeUnit)
-            .observeOn(AndroidSchedulers.mainThread())
+        val schedule = Observable.interval(delay, 1, timeUnit).observeOn(AndroidSchedulers.mainThread())
         val target = fetcher.countdown(schedule, ScheduleCallback(), period)
         disposableWeakReference = WeakReference(target)
     }

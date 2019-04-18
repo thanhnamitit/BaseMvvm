@@ -3,12 +3,10 @@ package com.vti.base.mvvm.viewmodel
 import androidx.lifecycle.*
 import com.vti.base.extension.livedata.NaviLiveData
 import com.vti.base.extension.livedata.event.Event
-import com.vti.base.extension.livedata.event.EventObserver
 import com.vti.base.mvvm.SimpleLifecycleOwnerProvider
+import org.koin.core.KoinComponent
 
-open class BaseViewModel : ViewModel(), LifecycleObserver, LifecycleOwner, SimpleLifecycleOwnerProvider {
-
-
+open class BaseViewModel : ViewModel(), LifecycleObserver, LifecycleOwner, SimpleLifecycleOwnerProvider, KoinComponent {
     private val lifecycleRegistry by lazy { LifecycleRegistry(this) }
 
     val normalEventNavigator = NaviLiveData<Event<Int>>()
