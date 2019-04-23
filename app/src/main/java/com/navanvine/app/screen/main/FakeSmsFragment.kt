@@ -1,6 +1,5 @@
 package com.navanvine.app.screen.main
 
-import android.os.Handler
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.navanvine.app.R
 import com.navanvine.app.base.BaseFragment
@@ -22,8 +21,6 @@ class FakeSmsFragment : BaseFragment<FragmentFakeSmsBinding, FakeSmsViewModel>()
     fun setupRecyclerView() {
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = FakeSmsAdapter(viewModel)
-        recyclerView.adapter = FakeSmsAdapter(viewModel)
-        Handler().postDelayed({ adapter.currentList?.clear() }, 15000)
+        recyclerView.adapter = FakeSmsAdapter(viewModel.modelsProcessor)
     }
 }

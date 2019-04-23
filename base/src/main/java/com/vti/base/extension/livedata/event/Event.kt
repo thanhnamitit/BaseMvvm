@@ -1,6 +1,6 @@
 package com.vti.base.extension.livedata.event
 
-class Event<T>(val value: T) {
+class Event<T>(val value: T?) {
     var hasBeenHandled = false
 
     val contentIfNotHandled

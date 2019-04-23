@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelProvider
-import com.vti.base.extension.dagger.BaseKoinFragment
+import com.vti.base.extension.koin.BaseKoinFragment
 import com.vti.base.mvvm.decorator.MvvmComponent
 import com.vti.base.mvvm.decorator.MvvmComponentDecorator
 import com.vti.base.mvvm.viewmodel.BaseViewModel

@@ -9,7 +9,7 @@ import androidx.paging.PagedList
 import com.vti.base.functional.ModelsContainer
 import com.vti.base.mvvm.viewmodel.BaseViewModel
 
-open class ModelsContainerViewModel<MODEL> : BaseViewModel(), ModelsContainer<MODEL> {
+open class PagingViewModel<MODEL> : BaseViewModel(), ModelsContainer<MODEL> {
     final override val modelsNavigator: LiveData<PagedList<MODEL>>
 
     init {

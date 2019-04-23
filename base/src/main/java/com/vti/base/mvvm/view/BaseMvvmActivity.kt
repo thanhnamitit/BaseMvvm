@@ -5,7 +5,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.vti.base.extension.dagger.BaseKoinActivity
+import com.vti.base.extension.koin.BaseKoinActivity
 import com.vti.base.extension.livedata.event.EventObserver
 import com.vti.base.mvvm.SimpleLifecycleOwnerProvider
 import com.vti.base.mvvm.viewmodel.BaseViewModel

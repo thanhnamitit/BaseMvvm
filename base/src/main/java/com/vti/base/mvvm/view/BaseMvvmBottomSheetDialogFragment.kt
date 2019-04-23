@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
-import com.vti.base.extension.dagger.BaseKoinBottomSheetDialogFragment
+import com.vti.base.extension.koin.BaseKoinBottomSheetDialogFragment
 import com.vti.base.mvvm.decorator.MvvmComponent
 import com.vti.base.mvvm.decorator.MvvmComponentDecorator
 import com.vti.base.mvvm.viewmodel.BaseViewModel

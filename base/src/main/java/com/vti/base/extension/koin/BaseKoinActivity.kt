@@ -1,4 +1,4 @@
-package com.vti.base.extension.dagger
+package com.vti.base.extension.koin
 
 import androidx.appcompat.app.AppCompatActivity
 

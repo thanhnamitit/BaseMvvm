@@ -5,30 +5,30 @@ import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import com.navanvine.app.BR
 import com.navanvine.app.databinding.ItemLoadMoreBinding
+import com.navanvine.app.databinding.ItemLoadMoreFailedBinding
 import com.navanvine.app.databinding.ItemVoiBinding
 import com.navanvine.app.model.Voi
 import com.vti.base.adapter.BaseBindingAdapter
 import com.vti.base.adapter.BaseBindingHolder
-import com.vti.base.functional.ModelsContainer
+import com.vti.base.functional.ModelsProvider
 
-class FakeSmsAdapter(modelsContainer: ModelsContainer<Voi>) : BaseBindingAdapter<Voi>(modelsContainer) {
-
-    override fun getViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): BaseBindingHolder {
-        return VoiHolder(ItemVoiBinding.inflate(inflater, parent, false))
+class FakeSmsAdapter(modelsContainer: ModelsProvider<Voi>) : BaseBindingAdapter<Voi>(modelsContainer) {
+    override fun onCreateNormalViewHolder(parent: ViewGroup, viewType: Int): BaseBindingHolder {
+        return VoiHolder(ItemVoiBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun getViewModelAtPosition(position: Int): Any {
-        val model = getItem(position)!!
-        return ItemVoiViewModel(model)
+        return ItemVoiViewModel(models[position], modelsProvider)
     }
 
-    override fun includeLoadMoreItem(): Boolean {
-        return true
+    override val loadMoreViewHolderCreator: ((parent: ViewGroup, viewType: Int) -> BaseBindingHolder)? = { parent, _ ->
+        VoiHolder(ItemLoadMoreBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun getLoadMoreViewHolder(inflater: LayoutInflater, parent: ViewGroup): BaseBindingHolder {
-        return VoiHolder(ItemLoadMoreBinding.inflate(inflater, parent, false))
+    override val loadMoreFailedViewHolderCreator: ((parent: ViewGroup, viewType: Int, reason: Int) -> BaseBindingHolder)? = { parent, _, _ ->
+        VoiHolder(ItemLoadMoreFailedBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
+
 }
 
 class VoiHolder(binding: ViewDataBinding) : BaseBindingHolder(binding) {
