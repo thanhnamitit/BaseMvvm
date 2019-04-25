@@ -1,7 +1,8 @@
 package com.navanvine.app
 
-import com.navanvine.app.di.module
+import com.navanvine.app.di.viewModelModule
 import com.vti.base.application.BaseApplication
+import com.vti.base.di.module.messageModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -12,7 +13,7 @@ class App : BaseApplication() {
         startKoin {
             androidLogger()
             androidContext(this@App)
-            modules(module)
+            modules(viewModelModule, messageModule)
         }
     }
 }

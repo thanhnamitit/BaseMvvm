@@ -3,7 +3,7 @@ package com.vti.base.extension.livedata
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.vti.base.mvvm.SimpleLifecycleOwnerProvider
+import com.vti.base.provider.SimpleLifecycleOwnerProvider
 
 open class NaviLiveData<T> : LiveData<T>() {
 

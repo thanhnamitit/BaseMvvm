@@ -26,4 +26,7 @@
     <dimen name="spacing_xxlarge">38sp</dimen>
     <dimen name="spacing_xxxlarge">42sp</dimen>
     <dimen name="spacing_line">1dp</dimen>
+
+    <dimen name="dialog_vertical_margin">32dp</dimen>
+    <dimen name="dialog_horizontal_margin">32dp</dimen>
 </resources>

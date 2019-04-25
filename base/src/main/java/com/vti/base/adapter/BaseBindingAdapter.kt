@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vti.base.extension.livedata.event.EventObserver
 import com.vti.base.functional.Command
 import com.vti.base.functional.ModelsProvider
-import timber.log.Timber
 
 abstract class BaseBindingAdapter<MODEL>(val modelsProvider: ModelsProvider<MODEL>) :
     RecyclerView.Adapter<BaseBindingHolder>() {
@@ -77,11 +76,10 @@ abstract class BaseBindingAdapter<MODEL>(val modelsProvider: ModelsProvider<MODE
                 return
             }
         }
-        loadMoreStatus = LoadMoreStatus.IDLE
+        if (loadMoreStatus == LoadMoreStatus.WAITING) loadMoreStatus = LoadMoreStatus.IDLE
     }
 
     override fun onBindViewHolder(holder: BaseBindingHolder, position: Int) {
-        Timber.i(position.toString())
         if (includeLoadMoreItem() && isInLoadMoreRange(position)) {
             checkToRequestLoadMore()
         }

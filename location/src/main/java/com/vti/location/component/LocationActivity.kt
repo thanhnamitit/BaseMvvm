@@ -10,7 +10,7 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
-import com.vti.base.mvvm.view.BaseMvvmActivity
+import com.vti.base.view.component.BaseMvvmActivity
 import com.vti.base.util.observable.GpsStatusObservable
 import com.vti.location.LocationServiceConnection
 import com.vti.location.data.model.LocationWrapper

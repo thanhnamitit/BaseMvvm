@@ -33,9 +33,10 @@ dependencies {
     api "org.koin:koin-android:${versions.koin}"
     api "org.koin:koin-android-viewmodel:${versions.koin}"
     api("com.github.hotchemi:permissionsdispatcher:${versions.permissionsdispatcher}") {
-        // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"
     }
+    api "com.android.support.constraint:constraint-layout:${versions.constraint_layout}"
+
     api "androidx.paging:paging-runtime:${versions.androidx.paging}" // For Kotlin use paging-runtime-ktx
 
     implementation "androidx.appcompat:appcompat:${versions.androidx.appcompat}"

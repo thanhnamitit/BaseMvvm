@@ -1,4 +1,4 @@
-package com.vti.base.mvvm.decorator
+package com.vti.base.view.component.decorator
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,20 +6,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import com.vti.base.extension.livedata.event.EventObserver
-import com.vti.base.mvvm.viewmodel.BaseViewModel
+import com.vti.base.viewmodel.BaseViewModel
 
 class MvvmComponentDecorator<BINDING : ViewDataBinding, VM : BaseViewModel>(val fragment: MvvmComponent<BINDING, VM>) {
 
     fun setupViewModel(lifecycle: Lifecycle) {
         val viewModel = fragment.viewModel
         if (!viewModel.hasNotSetupYet()) {
-            viewModel.normalEventNavigator.observe(
-                fragment.getNormalLifecycleOwner(),
-                EventObserver { fragment::onReceiveEvent })
-            viewModel.normalEventNavigator.observeUntilDestroyed(fragment, EventObserver { fragment::onReceiveEvent })
-            fragment.setupObserver()
+            viewModel.normalEventNavigator.observe(fragment.getNormalLifecycleOwner(), EventObserver { fragment.onReceiveEvent(it) })
+            viewModel.expressEventNavigator.observeUntilDestroyed(fragment, EventObserver { fragment.onReceiveEvent(it) })
+            fragment.setupViewModel()
+            lifecycle.addObserver(viewModel)
         }
-        lifecycle.addObserver(viewModel)
     }
 
     fun getViewDataBinding(inflater: LayoutInflater, container: ViewGroup?): BINDING {

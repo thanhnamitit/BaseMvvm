@@ -1,4 +1,4 @@
-package com.vti.base.mvvm
+package com.vti.base.provider
 
 import androidx.lifecycle.LifecycleOwner
 

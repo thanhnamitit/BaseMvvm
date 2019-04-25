@@ -1,6 +1,6 @@
 package com.navanvine.app.screen.splash
 
-import com.vti.base.mvvm.viewmodel.BaseViewModel
+import com.vti.base.viewmodel.BaseViewModel
 
 class SplashViewModel : BaseViewModel() {
 

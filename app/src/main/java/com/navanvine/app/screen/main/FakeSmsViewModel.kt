@@ -2,7 +2,12 @@ package com.navanvine.app.screen.main
 
 import android.os.Handler
 import com.navanvine.app.model.Voi
-import com.vti.base.mvvm.viewmodel.functional.ModelContainerViewModel
+import com.vti.base.adapter.viewmodel.addListOfModel
+import com.vti.base.adapter.viewmodel.addListOfModelAtLast
+import com.vti.base.adapter.viewmodel.allItemsLoaded
+import com.vti.base.adapter.viewmodel.indexOf
+import com.vti.base.message.MessageFactory
+import com.vti.base.viewmodel.functional.ModelContainerViewModel
 
 class FakeSmsViewModel : ModelContainerViewModel<Voi>() {
     init {
@@ -17,13 +22,17 @@ class FakeSmsViewModel : ModelContainerViewModel<Voi>() {
             if (a < 3) {
                 addListOfModelAtLast(MutableList<Voi>(10, init = { Voi(it) }))
             } else {
-                loadMoreFailed(1)
+                allItemsLoaded()
             }
         }, 3000)
     }
 
     override fun onItemClick(model: Voi, type: Int) {
-        addListOfModel(2, MutableList<Voi>(2, init = { Voi(it) }))
+        addListOfModel(indexOf(model) + 1, MutableList<Voi>(2, init = { Voi(it) }))
+    }
+
+    fun onButtonClick() {
+        messageManager.addMessage(MessageFactory.fullContentDialog("he", "chiu", "pom", "piu", 1))
     }
 
 }

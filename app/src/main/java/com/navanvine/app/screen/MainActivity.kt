@@ -22,6 +22,7 @@ class MainActivity : LocationActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun onViewReady() {
         super.onViewReady()
+        setupWithMessageManager()
     }
 
 

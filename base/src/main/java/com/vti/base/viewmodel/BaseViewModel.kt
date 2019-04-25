@@ -1,14 +1,17 @@
-package com.vti.base.mvvm.viewmodel
+package com.vti.base.viewmodel
 
 import androidx.lifecycle.*
 import com.vti.base.extension.livedata.NaviLiveData
 import com.vti.base.extension.livedata.event.Event
-import com.vti.base.mvvm.SimpleLifecycleOwnerProvider
+import com.vti.base.message.MessageManager
+import com.vti.base.provider.SimpleLifecycleOwnerProvider
 import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-open class BaseViewModel : ViewModel(), LifecycleObserver, LifecycleOwner, SimpleLifecycleOwnerProvider, KoinComponent {
+open class BaseViewModel : ViewModel(), LifecycleObserver, LifecycleOwner,
+    SimpleLifecycleOwnerProvider, KoinComponent {
     private val lifecycleRegistry by lazy { LifecycleRegistry(this) }
-
+    val messageManager: MessageManager by inject()
     val normalEventNavigator = NaviLiveData<Event<Int>>()
     val expressEventNavigator = NaviLiveData<Event<Int>>()
     var observerHasBeenSetup = false
