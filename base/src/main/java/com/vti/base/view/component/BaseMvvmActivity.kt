@@ -10,8 +10,11 @@ import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.vti.base.extension.koin.BaseKoinActivity
 import com.vti.base.extension.livedata.event.EventObserver
-import com.vti.base.message.MessageItem
 import com.vti.base.message.MessageManager
+import com.vti.base.message.MessageManagerImpl
+import com.vti.base.message.model.DialogMessage
+import com.vti.base.message.model.SnackbarMessage
+import com.vti.base.message.model.ToastMessage
 import com.vti.base.provider.SimpleLifecycleOwnerProvider
 import com.vti.base.util.observable.NetworkStatusObservable
 import com.vti.base.view.dialog.message.DefaultMessageDialog
@@ -21,10 +24,9 @@ import org.koin.android.viewmodel.ext.android.getViewModel
 import java.util.*
 import kotlin.reflect.KClass
 
-abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> : BaseKoinActivity(),
-    SimpleLifecycleOwnerProvider {
+abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> : BaseKoinActivity(), SimpleLifecycleOwnerProvider {
 
-    var activityDialog: DialogFragment? = null
+    var dialog: DialogFragment? = null
 
     abstract fun getViewModelType(): KClass<VM>
     abstract fun getLayoutId(): Int
@@ -68,10 +70,6 @@ abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> :
         lifecycle.addObserver(viewModel)
     }
 
-    open fun setupObserver() {
-
-    }
-
     open fun setupViewDataBinding() {
         binding.setVariable(getLayoutVariableId(), viewModel)
         binding.executePendingBindings()
@@ -89,33 +87,42 @@ abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> :
     }
 
     fun setupWithMessageManager() {
-        messageManager.toastMessageNavigator.observe(this, EventObserver { showToast(it.content!!) })
-        messageManager.snackBarMessageNavigator.observe(this, EventObserver { showSnackBar(it.content!!) })
-        messageManager.diaLogMessageNavigator.observe(this, EventObserver { showDialog(it) })
-        messageManager.dismissRequestAnnouncement.observe(this, EventObserver { dismissDialog() })
+        (messageManager as MessageManagerImpl).let {
+            it.toastMessageNavigator.observe(this, EventObserver { showToast(it) })
+            it.snackBarMessageNavigator.observe(this, EventObserver { showSnackBar(it) })
+            it.diaLogMessageNavigator.observe(this, EventObserver { showDialog(it) })
+            it.dismissRequestAnnouncement.observe(this, EventObserver { dismissDialog() })
+        }
     }
 
-    private fun showToast(content: String) {
-        Toast.makeText(this, content, Toast.LENGTH_SHORT).show()
+    private fun showToast(message: ToastMessage) {
+        Toast.makeText(this, message.content, message.duration).show()
     }
 
-    private fun showSnackBar(content: String) {
-        Snackbar.make(binding.root, content, Snackbar.LENGTH_SHORT).show()
+    private fun showSnackBar(message: SnackbarMessage) {
+        val snackbar = Snackbar.make(binding.root, message.content, message.duration)
+        message.actionText?.let {
+            snackbar.setAction(it) {
+                message.callBack?.onActionClick(message)
+            }
+        }
+        snackbar.show()
+
     }
 
-    private fun showDialog(messageItem: MessageItem) {
+    private fun showDialog(messageItem: DialogMessage) {
         dismissDialog()
-        activityDialog = generateDialogByMessageItem(messageItem)
-        activityDialog?.dialog?.setOnCancelListener { }
-        activityDialog?.show(supportFragmentManager, UUID.randomUUID().toString())
+        dialog = generateDialogByMessageItem(messageItem)
+        dialog?.dialog?.setOnCancelListener { }
+        dialog?.show(supportFragmentManager, UUID.randomUUID().toString())
     }
 
     private fun dismissDialog() {
-        activityDialog?.dismiss()
-        activityDialog = null
+        dialog?.dismiss()
+        dialog = null
     }
 
-    open fun generateDialogByMessageItem(messageItem: MessageItem): DialogFragment {
+    open fun generateDialogByMessageItem(messageItem: DialogMessage): DialogFragment {
         return DefaultMessageDialog.newInstance(messageItem)
     }
 

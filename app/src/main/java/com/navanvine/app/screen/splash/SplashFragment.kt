@@ -18,7 +18,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding, SplashViewModel>() {
     override fun onViewReady() {
         super.onViewReady()
         Handler().postDelayed({
-            navigate(R.id.action_splashFragment_to_fakeSmsFragment)
+            navigate(R.id.action_splashFragment_to_homeFragment)
         }, DELAY_TIME)
     }
 }

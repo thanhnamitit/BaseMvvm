@@ -13,7 +13,6 @@ import com.vti.base.view.component.decorator.MvvmComponentDecorator
 import com.vti.base.viewmodel.BaseViewModel
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.getViewModel
-import org.koin.core.inject
 
 abstract class BaseMvvmFragment<BINDING : ViewDataBinding, VM : BaseViewModel> : BaseKoinFragment(), MvvmComponent<BINDING, VM> {
     val messageManager: MessageManager by inject()

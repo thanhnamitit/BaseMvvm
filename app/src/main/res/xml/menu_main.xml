@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:key="key_message_manager"
+        app:summary="Dialog, toast, snackbar example"
+        app:title="Message manager" />
+    <Preference
+        app:key="key_recycler_view"
+        app:summary="RecyclerView, load more,..."
+        app:title="RecyclerView" />
+</androidx.preference.PreferenceScreen>

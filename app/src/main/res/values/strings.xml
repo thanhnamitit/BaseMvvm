@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Fake SMS</string>
-    <string name="app_slogan">Create your story</string>
+    <string name="app_name">MVVM Base Example</string>
+    <string name="app_slogan">MVVM is good :)</string>
 </resources>

@@ -4,12 +4,12 @@ import androidx.lifecycle.*
 import com.vti.base.extension.livedata.NaviLiveData
 import com.vti.base.extension.livedata.event.Event
 import com.vti.base.message.MessageManager
+import com.vti.base.message.model.Message
 import com.vti.base.provider.SimpleLifecycleOwnerProvider
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-open class BaseViewModel : ViewModel(), LifecycleObserver, LifecycleOwner,
-    SimpleLifecycleOwnerProvider, KoinComponent {
+open class BaseViewModel : ViewModel(), LifecycleObserver, LifecycleOwner, SimpleLifecycleOwnerProvider, KoinComponent {
     private val lifecycleRegistry by lazy { LifecycleRegistry(this) }
     val messageManager: MessageManager by inject()
     val normalEventNavigator = NaviLiveData<Event<Int>>()
@@ -82,6 +82,10 @@ open class BaseViewModel : ViewModel(), LifecycleObserver, LifecycleOwner,
     open fun doOnDestroy() {
         destroyed = true
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    }
+
+    fun addMessage(message: Message) {
+        messageManager.addMessage(message)
     }
 
     override fun getSimpleLifecycleOwner(): LifecycleOwner = this

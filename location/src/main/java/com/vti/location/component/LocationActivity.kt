@@ -10,8 +10,8 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
-import com.vti.base.view.component.BaseMvvmActivity
 import com.vti.base.util.observable.GpsStatusObservable
+import com.vti.base.view.component.BaseMvvmActivity
 import com.vti.location.LocationServiceConnection
 import com.vti.location.data.model.LocationWrapper
 import permissions.dispatcher.PermissionUtils
@@ -21,8 +21,7 @@ abstract class LocationActivity<BINDING : ViewDataBinding, VM : LocationViewMode
 
     private val REQUEST_CODE_RESOLVE = 0xf01
     private val REQUEST_LOCATION_SETTING = 0xf02
-    private val PERMISSION_CONNECT_LOCATION_SERVICE =
-        mutableListOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+    private val PERMISSION_CONNECT_LOCATION_SERVICE = mutableListOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
 
     lateinit var gpsStatusObservable: GpsStatusObservable
     var locationService: GeoLocationService? = null
@@ -41,16 +40,14 @@ abstract class LocationActivity<BINDING : ViewDataBinding, VM : LocationViewMode
         lifecycle.addObserver(gpsStatusObservable)
     }
 
-    override fun setupObserver() {
-        super.setupObserver()
+    override fun setupViewModel() {
+        super.setupViewModel()
         gpsStatusObservable.observe(this, Observer { isEnable ->
             if (!isEnable) requestToTurnOnGPS()
         })
     }
 
-    fun hasEnoughPermission() = PermissionUtils.hasSelfPermissions(
-        this@LocationActivity, PERMISSION_CONNECT_LOCATION_SERVICE[0]
-    ) && PermissionUtils.hasSelfPermissions(this@LocationActivity, PERMISSION_CONNECT_LOCATION_SERVICE[1])
+    fun hasEnoughPermission() = PermissionUtils.hasSelfPermissions(this@LocationActivity, PERMISSION_CONNECT_LOCATION_SERVICE[0]) && PermissionUtils.hasSelfPermissions(this@LocationActivity, PERMISSION_CONNECT_LOCATION_SERVICE[1])
 
     fun requestToTurnOnGPS() {
         locationService?.let { locationService ->
@@ -70,9 +67,7 @@ abstract class LocationActivity<BINDING : ViewDataBinding, VM : LocationViewMode
                     when (exception.statusCode) {
                         LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> try {
                             val resolvable = exception as ResolvableApiException
-                            resolvable.startResolutionForResult(
-                                this@LocationActivity, REQUEST_LOCATION_SETTING
-                            )
+                            resolvable.startResolutionForResult(this@LocationActivity, REQUEST_LOCATION_SETTING)
                         } catch (e: IntentSender.SendIntentException) {
                             Timber.e(e, "Request location setting %s", e.message)
                         } catch (e: ClassCastException) {

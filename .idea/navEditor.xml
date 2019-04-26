@@ -13,8 +13,41 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-481" />
-                            <option name="y" value="-117" />
+                            <option name="x" value="-919" />
+                            <option name="y" value="-408" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="homeFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-916" />
+                            <option name="y" value="-56" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_homeFragment_to_messageFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="messageFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-595" />
+                            <option name="y" value="-426" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -25,13 +58,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-708" />
-                            <option name="y" value="-119" />
+                            <option name="x" value="-1194" />
+                            <option name="y" value="-261" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
                             <entry key="action_splashFragment_to_fakeSmsFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_splashFragment_to_homeFragment">
                               <value>
                                 <LayoutPositions />
                               </value>

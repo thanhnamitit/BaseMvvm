@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Preference
+        app:key="key_toast"
+        app:title="Toast" />
+    <Preference
+        app:key="key_snackbar"
+        app:title="Snackbar" />
+    <Preference
+        app:key="key_snackbar_with_action"
+        app:title="Snackbar with action" />
+    <Preference
+        app:key="key_full_content_dialog"
+        app:title="Full content dialog" />
+    <Preference
+        app:key="key_confirm_dialog"
+        app:title="Confirm dialog" />
+</androidx.preference.PreferenceScreen>

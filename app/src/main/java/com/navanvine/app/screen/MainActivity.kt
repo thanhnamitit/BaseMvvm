@@ -19,7 +19,6 @@ class MainActivity : LocationActivity<ActivityMainBinding, MainViewModel>() {
         return R.layout.activity_main
     }
 
-
     override fun onViewReady() {
         super.onViewReady()
         setupWithMessageManager()
