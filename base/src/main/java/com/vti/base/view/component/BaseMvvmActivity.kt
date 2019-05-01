@@ -12,12 +12,14 @@ import com.vti.base.extension.koin.BaseKoinActivity
 import com.vti.base.extension.livedata.event.EventObserver
 import com.vti.base.message.MessageManager
 import com.vti.base.message.MessageManagerImpl
-import com.vti.base.message.model.DialogMessage
+import com.vti.base.message.model.AlertMessage
+import com.vti.base.message.model.SelectableMessage
 import com.vti.base.message.model.SnackbarMessage
 import com.vti.base.message.model.ToastMessage
 import com.vti.base.provider.SimpleLifecycleOwnerProvider
 import com.vti.base.util.observable.NetworkStatusObservable
-import com.vti.base.view.dialog.message.DefaultMessageDialog
+import com.vti.base.view.dialog.message.choice.single.DefaultSingleChoiceDialog
+import com.vti.base.view.dialog.message.normal.DefaultMessageDialog
 import com.vti.base.viewmodel.BaseViewModel
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.getViewModel
@@ -78,7 +80,7 @@ abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> :
 
     open fun isNeedToObserveToNetworkState() = false
 
-    fun observeToNetworkState() {
+    private fun observeToNetworkState() {
         lifecycle.addObserver(networkStateObservable)
         networkStateObservable.observe(this, Observer {
             if (it) onNetworkReconnected()
@@ -110,7 +112,7 @@ abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> :
 
     }
 
-    private fun showDialog(messageItem: DialogMessage) {
+    private fun showDialog(messageItem: AlertMessage) {
         dismissDialog()
         dialog = generateDialogByMessageItem(messageItem)
         dialog?.dialog?.setOnCancelListener { }
@@ -122,8 +124,11 @@ abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> :
         dialog = null
     }
 
-    open fun generateDialogByMessageItem(messageItem: DialogMessage): DialogFragment {
-        return DefaultMessageDialog.newInstance(messageItem)
+    open fun generateDialogByMessageItem(messageItem: AlertMessage): DialogFragment {
+        return when (messageItem) {
+            is SelectableMessage<*> -> DefaultSingleChoiceDialog.newInstance(messageItem)
+            else -> DefaultMessageDialog.newInstance(messageItem)
+        }
     }
 
     open fun onNetworkReconnected() {}

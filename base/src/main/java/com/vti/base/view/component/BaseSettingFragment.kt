@@ -21,7 +21,7 @@ abstract class BaseSettingFragment : PreferenceFragmentCompat(), Preference.OnPr
 
     private fun listenClickFor(strings: MutableList<String>) {
         strings.map {
-            findPreference(it).onPreferenceClickListener = this
+            findPreference<Preference>(it)?.onPreferenceClickListener = this
         }
     }
 

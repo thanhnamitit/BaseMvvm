@@ -7,10 +7,10 @@ import com.vti.base.adapter.viewmodel.addListOfModelAtLast
 import com.vti.base.adapter.viewmodel.allItemsLoaded
 import com.vti.base.adapter.viewmodel.indexOf
 import com.vti.base.message.MessageFactory
-import com.vti.base.message.model.DialogMessage
-import com.vti.base.viewmodel.functional.ModelContainerViewModel
+import com.vti.base.message.model.AlertMessage
+import com.vti.base.viewmodel.functional.ModelsContainerViewModel
 
-class FakeSmsViewModel : ModelContainerViewModel<Voi>(), DialogMessage.CallBack {
+class FakeSmsViewModel : ModelsContainerViewModel<Voi>(), AlertMessage.CallBack {
 
     init {
         addListOfModelAtLast(MutableList<Voi>(10, init = { Voi(it) }))
@@ -38,7 +38,7 @@ class FakeSmsViewModel : ModelContainerViewModel<Voi>(), DialogMessage.CallBack 
     }
 
     fun showDialog() {
-        addMessage(MessageFactory.fullContentDialog("he", "chiu", "pom", "piu", 1, this))
+        addMessage(MessageFactory.fullContent("he", "chiu", "pom", "piu", 1, this))
 
     }
 
@@ -46,11 +46,11 @@ class FakeSmsViewModel : ModelContainerViewModel<Voi>(), DialogMessage.CallBack 
         addMessage(MessageFactory.snackbar("Snackbar content"))
     }
 
-    override fun onPositiveClick(messageItem: DialogMessage) {
+    override fun onPositiveClick(messageItem: AlertMessage) {
         addMessage(MessageFactory.toast("Positive click"))
     }
 
-    override fun onNegativeClick(messageItem: DialogMessage) {
+    override fun onNegativeClick(messageItem: AlertMessage) {
         addMessage(MessageFactory.toast("Negative click"))
 
     }

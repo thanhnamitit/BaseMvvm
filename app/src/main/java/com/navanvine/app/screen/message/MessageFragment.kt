@@ -3,6 +3,8 @@ package com.navanvine.app.screen.message
 import androidx.preference.Preference
 import com.navanvine.app.R
 import com.vti.base.message.MessageFactory
+import com.vti.base.message.model.Item
+import com.vti.base.message.model.SelectableMessage
 import com.vti.base.message.model.SnackbarMessage
 import com.vti.base.view.component.BaseSettingFragment
 
@@ -14,6 +16,8 @@ class MessageFragment : BaseSettingFragment() {
         const val KEY_SNACKBAR_WITH_ACTION = "key_snackbar_with_action"
         const val KEY_FULL_CONTENT_DIALOG = "key_full_content_dialog"
         const val KEY_CONFIRM_DIALOG = "key_confirm_dialog"
+        const val KEY_SINGLE_CHOICE_DIALOG = "key_single_choice_dialog"
+        const val KEY_MULTI_CHOICE_DIALOG = "key_multi_choice_dialog"
     }
 
     override fun getXmlId(): Int {
@@ -21,7 +25,7 @@ class MessageFragment : BaseSettingFragment() {
     }
 
     override fun getIdsToListenOnClick(): MutableList<String>? {
-        return mutableListOf(KEY_TOAST, KEY_SNACKBAR, KEY_SNACKBAR_WITH_ACTION, KEY_FULL_CONTENT_DIALOG, KEY_CONFIRM_DIALOG)
+        return mutableListOf(KEY_TOAST, KEY_SNACKBAR, KEY_SNACKBAR_WITH_ACTION, KEY_FULL_CONTENT_DIALOG, KEY_CONFIRM_DIALOG, KEY_SINGLE_CHOICE_DIALOG, KEY_MULTI_CHOICE_DIALOG)
     }
 
     override fun onPreferenceClick(preference: Preference): Boolean {
@@ -31,6 +35,7 @@ class MessageFragment : BaseSettingFragment() {
             KEY_SNACKBAR_WITH_ACTION -> addSnackBarWithAction()
             KEY_FULL_CONTENT_DIALOG -> addFullContentDialog()
             KEY_CONFIRM_DIALOG -> addConfirmDialog()
+            KEY_SINGLE_CHOICE_DIALOG -> addSingleChoiceDialog()
         }
         return super.onPreferenceClick(preference)
     }
@@ -40,7 +45,7 @@ class MessageFragment : BaseSettingFragment() {
     }
 
     private fun addFullContentDialog() {
-        messageManager.addMessage(MessageFactory.fullContentDialog("Title", "Message", "Positive", " Negative", R.drawable.navigation_empty_icon))
+        messageManager.addMessage(MessageFactory.fullContent("Title", "Message", "Positive", " Negative", R.drawable.navigation_empty_icon))
     }
 
     private fun addSnackBarWithAction() {
@@ -58,6 +63,10 @@ class MessageFragment : BaseSettingFragment() {
 
     private fun addToast() {
         messageManager.addMessage(MessageFactory.toast("Toast content"))
+    }
+
+    private fun addSingleChoiceDialog() {
+        messageManager.addMessage(MessageFactory.singleChoice("Single choice title", "Cancel", MutableList(8) { Item(it.toString(), it.toString()) }, SelectableMessage.OnItemSelectListener {}))
     }
 
 

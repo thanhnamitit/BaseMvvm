@@ -4,7 +4,7 @@ import com.vti.base.adapter.model.ModelsProcessor
 import com.vti.base.adapter.viewmodel.ViewModel
 import com.vti.base.viewmodel.BaseViewModel
 
-open class ModelContainerViewModel<MODEL>() : BaseViewModel(), ViewModel<MODEL> {
+open class ModelsContainerViewModel<MODEL>() : BaseViewModel(), ViewModel<MODEL> {
 
     override val modelsProcessor = ModelsProcessor(this)
 

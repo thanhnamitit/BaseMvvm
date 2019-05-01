@@ -15,4 +15,10 @@
     <Preference
         app:key="key_confirm_dialog"
         app:title="Confirm dialog" />
+    <Preference
+        app:key="key_single_choice_dialog"
+        app:title="Single choice dialog" />
+    <Preference
+        app:key="key_multi_choice_dialog"
+        app:title="Multi choice dialog" />
 </androidx.preference.PreferenceScreen>

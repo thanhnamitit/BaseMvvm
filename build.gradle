@@ -19,7 +19,9 @@ buildscript {
             'okhttp'               : '3.11.0',
             'timber'               : '4.7.1',
             'permissionsdispatcher': '4.0.0',
-            'koin': '2.0.0-rc-2',
+            'sdp'                  : '1.0.6',
+            'ssp'                  : '1.0.6',
+            'koin'                 : '2.0.0-rc-2',
             'androidx'             : [
                     'appcompat'        : '1.1.0-alpha04',
                     'material'         : '1.0.0',
@@ -32,7 +34,8 @@ buildscript {
                     'room'             : '2.0.0',
                     'test_runner'      : '1.0.2',
                     'test_rules'       : '1.0.2',
-                    'work'             : '1.0.0-alpha09'
+                    'work'             : '1.0.0-alpha09',
+                    'preference'       : '1.1.0-alpha04'
             ],
             'play_service'         : [
                     'location': '16.0.0',

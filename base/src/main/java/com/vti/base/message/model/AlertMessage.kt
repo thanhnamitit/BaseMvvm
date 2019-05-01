@@ -4,7 +4,7 @@ import com.vti.base.message.Priority
 import java.io.Serializable
 
 
-class DialogMessage internal constructor() : Message(), Comparable<DialogMessage>, Serializable {
+open class AlertMessage internal constructor() : Message(), Comparable<AlertMessage>, Serializable {
 
     var title: String? = null
     var positiveContent: String? = null
@@ -14,18 +14,18 @@ class DialogMessage internal constructor() : Message(), Comparable<DialogMessage
     var callBack: CallBack? = null
 
 
-    override fun compareTo(other: DialogMessage): Int {
+    override fun compareTo(other: AlertMessage): Int {
         return priority.value - other.priority.value
     }
 
-    fun canReplaceTo(messageItem: DialogMessage?): Boolean {
+    fun canReplaceTo(messageItem: AlertMessage?): Boolean {
         if (messageItem == null) return true
         return priority.value - messageItem.priority.value >= 0
     }
 
     interface CallBack {
-        fun onPositiveClick(messageItem: DialogMessage)
-        fun onNegativeClick(messageItem: DialogMessage)
+        fun onPositiveClick(messageItem: AlertMessage)
+        fun onNegativeClick(messageItem: AlertMessage)
     }
 
 }

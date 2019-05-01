@@ -2,9 +2,7 @@ package com.vti.base.message
 
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
-import com.vti.base.message.model.DialogMessage
-import com.vti.base.message.model.SnackbarMessage
-import com.vti.base.message.model.ToastMessage
+import com.vti.base.message.model.*
 
 object MessageFactory {
     fun toast(message: String, duration: Int = Toast.LENGTH_SHORT, id: Int = -1) = ToastMessage().apply {
@@ -22,7 +20,7 @@ object MessageFactory {
     }
 
 
-    fun fullContentDialog(title: String, content: String, positiveContent: String, negativeContent: String, iconResId: Int, callBack: DialogMessage.CallBack? = null, id: Int = -1) = DialogMessage().apply {
+    fun fullContent(title: String, content: String, positiveContent: String, negativeContent: String, iconResId: Int, callBack: AlertMessage.CallBack? = null, id: Int = -1) = AlertMessage().apply {
         this.id = id
         this.title = title
         this.content = content
@@ -32,12 +30,19 @@ object MessageFactory {
         this.callBack = callBack
     }
 
-    fun notificationDialog(title: String, content: String, cancelContent: String, iconResId: Int, callBack: DialogMessage.CallBack? = null, id: Int = -1) = DialogMessage().apply {
+    fun alert(title: String, content: String, cancelContent: String, iconResId: Int, callBack: AlertMessage.CallBack? = null, id: Int = -1) = AlertMessage().apply {
         this.id = id
         this.title = title
         this.content = content
         this.negativeContent = cancelContent
         this.iconResId = iconResId
         this.callBack = callBack
+    }
+
+    fun <VALUE> singleChoice(title: String, doneMessage: String, items: List<Item<VALUE>>, onItemSelectListener: SelectableMessage.OnItemSelectListener) = SelectableMessage<VALUE>().apply {
+        this.title = title
+        this.doneMessage = doneMessage
+        this.items = items
+        this.onItemSelectListener = onItemSelectListener
     }
 }

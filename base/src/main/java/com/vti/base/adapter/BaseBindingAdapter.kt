@@ -7,7 +7,7 @@ import com.vti.base.functional.Command
 import com.vti.base.functional.ModelsProvider
 
 abstract class BaseBindingAdapter<MODEL>(val modelsProvider: ModelsProvider<MODEL>) :
-    RecyclerView.Adapter<BaseBindingHolder>() {
+        RecyclerView.Adapter<BaseBindingHolder>() {
 
     companion object {
         const val TAG = "BaseBindingAdapter"
@@ -19,11 +19,11 @@ abstract class BaseBindingAdapter<MODEL>(val modelsProvider: ModelsProvider<MODE
     var loadFailedReason = 0
     open val loadMoreViewHolderCreator: ((parent: ViewGroup, viewType: Int) -> BaseBindingHolder)? = null
     open val loadMoreFailedViewHolderCreator: ((parent: ViewGroup, viewType: Int, reason: Int) -> BaseBindingHolder)? =
-        null
+            null
 
     init {
         modelsProvider.commandNavigator.observe(modelsProvider.getLifeCycleOwner(),
-            EventObserver { onReceiveCommand(it) })
+                EventObserver { onReceiveCommand(it) })
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -84,7 +84,7 @@ abstract class BaseBindingAdapter<MODEL>(val modelsProvider: ModelsProvider<MODE
             checkToRequestLoadMore()
         }
         if (isNormalItemPosition(position)) holder.setVariable(
-            getViewModelAtPosition(position)
+                getViewModelAtPosition(position)
         )
     }
 
