@@ -11,7 +11,8 @@ import com.vti.base.view.component.BaseMvvmDialogFragment
 import com.vti.base.view.dialog.message.normal.DefaultMessageDialog
 import kotlin.reflect.KClass
 
-class DefaultSingleChoiceDialog : BaseMvvmDialogFragment<DefaultDialogSingleChoiceBinding, DefaultSingleChoiceViewModel>() {
+class DefaultSingleChoiceDialog :
+    BaseMvvmDialogFragment<DefaultDialogSingleChoiceBinding, DefaultSingleChoiceViewModel>() {
     companion object {
         const val KEY_MESSAGE_ITEM = "AlertMessage"
         fun newInstance(message: SelectableMessage<*>) = DefaultSingleChoiceDialog().apply {
@@ -35,7 +36,8 @@ class DefaultSingleChoiceDialog : BaseMvvmDialogFragment<DefaultDialogSingleChoi
 
     override fun handleArguments(arguments: Bundle) {
         super.handleArguments(arguments)
-        viewModel.messageItem = arguments.getSerializable(DefaultMessageDialog.KEY_MESSAGE_ITEM) as SelectableMessage<*>?
+        viewModel.messageItem =
+            arguments.getSerializable(DefaultMessageDialog.KEY_MESSAGE_ITEM) as SelectableMessage<Any>?
     }
 
     override fun onViewReady() {
@@ -46,5 +48,10 @@ class DefaultSingleChoiceDialog : BaseMvvmDialogFragment<DefaultDialogSingleChoi
     fun setupRecyclerView(recyclerView: RecyclerView) {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = DefaultSingleChoiceDialogAdapter(viewModel.modelsProcessor)
+    }
+
+    override fun onReceiveEvent(event: Int) {
+        super.onReceiveEvent(event)
+        dismiss()
     }
 }

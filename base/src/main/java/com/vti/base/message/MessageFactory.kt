@@ -39,7 +39,7 @@ object MessageFactory {
         this.callBack = callBack
     }
 
-    fun <VALUE> singleChoice(title: String, doneMessage: String, items: List<Item<VALUE>>, onItemSelectListener: SelectableMessage.OnItemSelectListener) = SelectableMessage<VALUE>().apply {
+    fun <VALUE> singleChoice(title: String, doneMessage: String, items: List<Item<VALUE>>, onItemSelectListener: OnItemSelectListener<VALUE>) = SelectableMessage<VALUE>().apply {
         this.title = title
         this.doneMessage = doneMessage
         this.items = items

@@ -10,7 +10,7 @@ import com.vti.base.message.model.Item
 import com.vti.base.view.dialog.message.choice.ItemSelectableViewHolder
 import com.vti.base.view.dialog.message.choice.ItemSelectableViewModel
 
-class DefaultSingleChoiceDialogAdapter(modelsProvider: ModelsProvider<Item<*>>) : BaseBindingAdapter<Item<*>>(modelsProvider) {
+class DefaultSingleChoiceDialogAdapter(modelsProvider: ModelsProvider<Item<out Any>>) : BaseBindingAdapter<Item<out Any>>(modelsProvider) {
     override fun onCreateNormalViewHolder(parent: ViewGroup, viewType: Int): BaseBindingHolder {
         return ItemSelectableViewHolder(ItemChoosableBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }

@@ -6,6 +6,7 @@ import com.navanvine.app.databinding.ActivityMainBinding
 import com.vti.location.component.LocationActivity
 import kotlin.reflect.KClass
 
+
 class MainActivity : LocationActivity<ActivityMainBinding, MainViewModel>() {
     override fun getLayoutVariableId(): Int {
         return BR.viewModel
@@ -23,6 +24,4 @@ class MainActivity : LocationActivity<ActivityMainBinding, MainViewModel>() {
         super.onViewReady()
         setupWithMessageManager()
     }
-
-
 }

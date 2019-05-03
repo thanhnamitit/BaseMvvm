@@ -7,23 +7,29 @@ import com.vti.base.view.dialog.message.EventNegativeClick
 import com.vti.base.view.dialog.message.EventPositiveClick
 import com.vti.base.viewmodel.functional.ModelsContainerViewModel
 
-class DefaultSingleChoiceViewModel : ModelsContainerViewModel<Item<*>>() {
-    var messageItem: SelectableMessage<*>? = null
+class DefaultSingleChoiceViewModel : ModelsContainerViewModel<Item<out Any>>() {
+    var messageItem: SelectableMessage<Any>? = null
         set(value) {
             value?.let {
                 addListOfModelAtFirst(it.items)
             }
+            field = value
         }
 
+    val title
+        get() = messageItem!!.title
+    val doneContent
+        get() = messageItem!!.content
 
 
-    override fun onItemClick(model: Item<*>, type: Int) {
+    override fun onItemClick(model: Item<out Any>, type: Int) {
         super.onItemClick(model, type)
         messageItem?.onItemSelectListener?.let {
             it.onItemSelected(model)
             sendEvent(EventPositiveClick)
             return
-        }    }
+        }
+    }
 
     fun onDoneClick() {
         sendEvent(EventNegativeClick)

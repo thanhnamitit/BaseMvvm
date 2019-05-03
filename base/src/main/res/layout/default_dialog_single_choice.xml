@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -19,10 +20,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/md_red_50"
-            android:text="hehehehe"
+            android:text="@{viewModel.title}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="title" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -34,13 +36,14 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_32sdp"
             android:background="@color/md_red_50"
             android:clickable="true"
             android:onClick="@{(v)->viewModel.onDoneClick()}"
-            android:text="chiu chiu"
+            android:text="@{viewModel.doneContent}"
             app:layout_constraintLeft_toLeftOf="@id/tv_title"
             app:layout_constraintRight_toRightOf="@id/tv_title"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_view" />
+            app:layout_constraintTop_toBottomOf="@+id/recycler_view"
+            tools:text="Done" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
