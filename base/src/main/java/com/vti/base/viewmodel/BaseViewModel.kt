@@ -88,6 +88,10 @@ open class BaseViewModel : ViewModel(), LifecycleObserver, LifecycleOwner, Simpl
         messageManager.addMessage(message)
     }
 
+    fun handleApi(result: Result<*>) {
+
+    }
+
     override fun getSimpleLifecycleOwner(): LifecycleOwner = this
     override fun getNormalLifecycleOwner(): LifecycleOwner = this
 }

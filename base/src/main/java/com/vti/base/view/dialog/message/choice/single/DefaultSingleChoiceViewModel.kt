@@ -17,9 +17,9 @@ class DefaultSingleChoiceViewModel : ModelsContainerViewModel<Item<out Any>>() {
         }
 
     val title
-        get() = messageItem!!.title
+        get() = messageItem?.title ?: ""
     val doneContent
-        get() = messageItem!!.content
+        get() = messageItem?.doneMessage ?: ""
 
 
     override fun onItemClick(model: Item<out Any>, type: Int) {
