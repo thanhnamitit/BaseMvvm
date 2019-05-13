@@ -16,9 +16,7 @@ class LocationProvider(val statusObserver: ((isActive: Boolean) -> Unit)? = null
             setValue(LocationWrapper.fromStatus(value))
         }
 
-    override
-
-    fun onActive() {
+    override fun onActive() {
         super.onActive()
         statusObserver?.invoke(true)
     }

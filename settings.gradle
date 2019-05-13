@@ -1,1 +1,1 @@
-include ':app', ':base', ':data', ':location'
+include ':app', ':base', ':location', ':adminapp', ':driverapp', ':common'

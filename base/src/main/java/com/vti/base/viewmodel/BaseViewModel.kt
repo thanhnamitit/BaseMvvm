@@ -1,17 +1,21 @@
 package com.vti.base.viewmodel
 
 import androidx.lifecycle.*
+import com.vti.base.data.param.response.wrapper.Result
 import com.vti.base.extension.livedata.NaviLiveData
 import com.vti.base.extension.livedata.event.Event
+import com.vti.base.message.MessageFactory
 import com.vti.base.message.MessageManager
 import com.vti.base.message.model.Message
 import com.vti.base.provider.SimpleLifecycleOwnerProvider
+import com.vti.base.resource.functional.ResourceManager
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
 open class BaseViewModel : ViewModel(), LifecycleObserver, LifecycleOwner, SimpleLifecycleOwnerProvider, KoinComponent {
     private val lifecycleRegistry by lazy { LifecycleRegistry(this) }
     val messageManager: MessageManager by inject()
+    val resourceManager: ResourceManager by inject()
     val normalEventNavigator = NaviLiveData<Event<Int>>()
     val expressEventNavigator = NaviLiveData<Event<Int>>()
     var observerHasBeenSetup = false
@@ -89,8 +93,14 @@ open class BaseViewModel : ViewModel(), LifecycleObserver, LifecycleOwner, Simpl
     }
 
     fun handleApi(result: Result<*>) {
-
+        if (result.isLoading) {
+            addMessage(MessageFactory.loading())
+        } else {
+            messageManager.dismissCurrent()
+        }
     }
+
+    fun getString(id: Int) = resourceManager.getString(id)
 
     override fun getSimpleLifecycleOwner(): LifecycleOwner = this
     override fun getNormalLifecycleOwner(): LifecycleOwner = this

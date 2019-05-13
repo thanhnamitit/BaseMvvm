@@ -1,7 +1,9 @@
 package com.vti.base.view.component
 
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
@@ -10,23 +12,21 @@ import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.vti.base.extension.koin.BaseKoinActivity
 import com.vti.base.extension.livedata.event.EventObserver
+import com.vti.base.message.DialogFactory
 import com.vti.base.message.MessageManager
-import com.vti.base.message.MessageManagerImpl
+import com.vti.base.message.impl.MessageManagerImpl
 import com.vti.base.message.model.AlertMessage
-import com.vti.base.message.model.SelectableMessage
 import com.vti.base.message.model.SnackbarMessage
 import com.vti.base.message.model.ToastMessage
 import com.vti.base.provider.SimpleLifecycleOwnerProvider
 import com.vti.base.util.observable.NetworkStatusObservable
-import com.vti.base.view.dialog.message.choice.single.DefaultSingleChoiceDialog
-import com.vti.base.view.dialog.message.normal.DefaultMessageDialog
 import com.vti.base.viewmodel.BaseViewModel
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.getViewModel
 import java.util.*
 import kotlin.reflect.KClass
 
-abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> : BaseKoinActivity(), SimpleLifecycleOwnerProvider {
+abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> : BaseKoinActivity(), SimpleLifecycleOwnerProvider, OnToolbarColorChangeListener {
 
     var dialog: DialogFragment? = null
 
@@ -35,6 +35,7 @@ abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> :
     abstract fun getLayoutVariableId(): Int
 
     val messageManager: MessageManager by inject()
+    val dialogFactory: DialogFactory by inject()
 
     val binding by lazy { DataBindingUtil.setContentView(this, getLayoutId()) as BINDING }
     val viewModel: VM by lazy { getViewModel(getViewModelType()) }
@@ -109,7 +110,6 @@ abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> :
             }
         }
         snackbar.show()
-
     }
 
     private fun showDialog(messageItem: AlertMessage) {
@@ -125,10 +125,8 @@ abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> :
     }
 
     open fun generateDialogByMessageItem(messageItem: AlertMessage): DialogFragment {
-        return when (messageItem) {
-            is SelectableMessage<*> -> DefaultSingleChoiceDialog.newInstance(messageItem)
-            else -> DefaultMessageDialog.newInstance(messageItem)
-        }
+        return dialogFactory.generateDialog(messageItem)
+
     }
 
     open fun onNetworkReconnected() {}
@@ -137,5 +135,11 @@ abstract class BaseMvvmActivity<BINDING : ViewDataBinding, VM : BaseViewModel> :
     override fun getSimpleLifecycleOwner(): LifecycleOwner = viewModel
 
     override fun getNormalLifecycleOwner(): LifecycleOwner = this
+
+    override fun onToolbarBackgroundColorChange(resId: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = ContextCompat.getColor(this, resId)
+        }
+    }
 
 }

@@ -6,16 +6,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vti.base.BR
 import com.vti.base.R
 import com.vti.base.databinding.DefaultDialogSingleChoiceBinding
-import com.vti.base.message.model.SelectableMessage
+import com.vti.base.message.model.AlertMessage
 import com.vti.base.view.component.BaseMvvmDialogFragment
 import com.vti.base.view.dialog.message.normal.DefaultMessageDialog
 import kotlin.reflect.KClass
 
-class DefaultSingleChoiceDialog :
-    BaseMvvmDialogFragment<DefaultDialogSingleChoiceBinding, DefaultSingleChoiceViewModel>() {
+class DefaultSingleChoiceDialog : BaseMvvmDialogFragment<DefaultDialogSingleChoiceBinding, DefaultSingleChoiceViewModel>() {
     companion object {
         const val KEY_MESSAGE_ITEM = "AlertMessage"
-        fun newInstance(message: SelectableMessage<*>) = DefaultSingleChoiceDialog().apply {
+        fun newInstance(message: AlertMessage) = DefaultSingleChoiceDialog().apply {
             arguments = Bundle().apply {
                 putSerializable(KEY_MESSAGE_ITEM, message)
             }
@@ -36,8 +35,7 @@ class DefaultSingleChoiceDialog :
 
     override fun handleArguments(arguments: Bundle) {
         super.handleArguments(arguments)
-        viewModel.messageItem =
-            arguments.getSerializable(DefaultMessageDialog.KEY_MESSAGE_ITEM) as SelectableMessage<Any>?
+        viewModel.messageItem = arguments.getSerializable(DefaultMessageDialog.KEY_MESSAGE_ITEM) as AlertMessage
     }
 
     override fun onViewReady() {

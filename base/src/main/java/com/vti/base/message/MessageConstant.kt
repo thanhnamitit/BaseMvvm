@@ -9,5 +9,5 @@ enum class Priority(val value: Int) {
 }
 
 enum class SpecialType {
-    LocationPermission, NetworkError, Loading, Default
+    LocationPermission, NetworkError, Loading, Default, Selectable
 }

@@ -14,7 +14,9 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
-
+    dataBinding {
+        enabled true
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -29,7 +31,7 @@ dependencies {
 
     implementation "com.google.android.gms:play-services-base:${versions.play_service.base}"
     implementation "com.google.android.gms:play-services-location:${versions.play_service.location}"
-    implementation "com.google.android.gms:play-services-maps:${versions.play_service.map}"
+    api "com.google.android.gms:play-services-maps:${versions.play_service.map}"
     //Place
     implementation "com.google.android.libraries.places:places:${versions.play_service.place}"
 

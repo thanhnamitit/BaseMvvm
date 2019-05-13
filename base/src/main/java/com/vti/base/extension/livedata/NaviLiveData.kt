@@ -6,8 +6,6 @@ import androidx.lifecycle.Observer
 import com.vti.base.provider.SimpleLifecycleOwnerProvider
 
 open class NaviLiveData<T> : LiveData<T>() {
-
-
     public override fun postValue(value: T) {
         super.postValue(value)
     }
@@ -26,14 +24,12 @@ open class NaviLiveData<T> : LiveData<T>() {
     }
 
     @Deprecated("This method can make LiveData reference to OnceObserver forever if there is no data set, lead to leak memory. Use observeOnce(lifecycleOwner: LifecycleOwner, observer: OnceObserver) method instead")
-    fun observeOnce(observer: OnceObserver<T>) {
-        observer.liveData = this
-        observeForever(observer)
+    fun observeOnce(callBack: (t: T) -> Unit) {
+        observeForever(OnceObserver(callBack, this))
     }
 
-    fun observeOnce(lifecycleOwner: LifecycleOwner, observer: OnceObserver<T>) {
-        observer.liveData = this
-        observe(lifecycleOwner, observer)
+    fun observeOnce(lifecycleOwner: LifecycleOwner, callBack: (t: T) -> Unit) {
+        observe(lifecycleOwner, OnceObserver(callBack, this))
     }
 
 }

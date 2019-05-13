@@ -10,18 +10,20 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
+import com.vti.base.message.MessageFactory
+import com.vti.base.util.hasSelfPermissions
 import com.vti.base.util.observable.GpsStatusObservable
 import com.vti.base.view.component.BaseMvvmActivity
+import com.vti.base.view.dialog.permission.OnPermissionRequestListener
 import com.vti.location.LocationServiceConnection
 import com.vti.location.data.model.LocationWrapper
-import permissions.dispatcher.PermissionUtils
 import timber.log.Timber
 
-abstract class LocationActivity<BINDING : ViewDataBinding, VM : LocationViewModel> : BaseMvvmActivity<BINDING, VM>() {
+abstract class LocationActivity<BINDING : ViewDataBinding, VM : LocationViewModel> : BaseMvvmActivity<BINDING, VM>(), OnPermissionRequestListener {
 
     private val REQUEST_CODE_RESOLVE = 0xf01
     private val REQUEST_LOCATION_SETTING = 0xf02
-    private val PERMISSION_CONNECT_LOCATION_SERVICE = mutableListOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+    private val PERMISSION_CONNECT_LOCATION_SERVICE = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
 
     lateinit var gpsStatusObservable: GpsStatusObservable
     var locationService: GeoLocationService? = null
@@ -40,14 +42,47 @@ abstract class LocationActivity<BINDING : ViewDataBinding, VM : LocationViewMode
         lifecycle.addObserver(gpsStatusObservable)
     }
 
+
     override fun setupViewModel() {
         super.setupViewModel()
-        gpsStatusObservable.observe(this, Observer { isEnable ->
-            if (!isEnable) requestToTurnOnGPS()
+        viewModel.locationObserveFlag.observe(this, Observer<Boolean> { isTurningOn ->
+            if (isTurningOn) startListeningToLocation()
+            else stopListeningToLocation()
         })
     }
 
-    fun hasEnoughPermission() = PermissionUtils.hasSelfPermissions(this@LocationActivity, PERMISSION_CONNECT_LOCATION_SERVICE[0]) && PermissionUtils.hasSelfPermissions(this@LocationActivity, PERMISSION_CONNECT_LOCATION_SERVICE[1])
+    fun hasEnoughPermission() = hasSelfPermissions(this, PERMISSION_CONNECT_LOCATION_SERVICE)
+
+    fun startDetectLocation() {
+        viewModel.startListeningToLocation()
+    }
+
+    fun stopDetectLocation() {
+        viewModel.stopListeningToLocation()
+    }
+
+    private fun startListeningToLocation() {
+        if (!hasEnoughPermission()) {
+            messageManager.addMessage(MessageFactory.locationPermissionRequest())
+        } else {
+            connectToLocationService()
+            gpsStatusObservable.start()
+            gpsStatusObservable.reObserve(this, Observer { isEnable ->
+                if (!isEnable) requestToTurnOnGPS()
+            })
+        }
+
+    }
+
+    private fun stopListeningToLocation() {
+        connection.disconnect(shouldStopServiceWhenDestroy())
+        gpsStatusObservable.removeObservers(this)
+        gpsStatusObservable.stop()
+    }
+
+    override fun onRequestSuccess(permission: Array<String>) {
+        startListeningToLocation()
+    }
 
     fun requestToTurnOnGPS() {
         locationService?.let { locationService ->
@@ -84,7 +119,9 @@ abstract class LocationActivity<BINDING : ViewDataBinding, VM : LocationViewMode
 
     override fun onDestroy() {
         super.onDestroy()
-        connection.disconnect(shouldStopServiceWhenDestroy())
+        if (shouldStopServiceWhenDestroy()) {
+            stopListeningToLocation()
+        }
     }
 
     protected fun shouldStopServiceWhenDestroy(): Boolean {
@@ -93,12 +130,12 @@ abstract class LocationActivity<BINDING : ViewDataBinding, VM : LocationViewMode
 
     override fun onResume() {
         super.onResume()
-        if (hasEnoughPermission()) {
-            connectLocationService()
+        if (viewModel.isListeningToLocation()) {
+            startListeningToLocation()
         }
     }
 
-    private fun connectLocationService() {
+    private fun connectToLocationService() {
         if (connection.isBound) {
             return
         }
@@ -123,7 +160,6 @@ abstract class LocationActivity<BINDING : ViewDataBinding, VM : LocationViewMode
                     e.printStackTrace()
                     Timber.e(e, "Request resolve get exception %s", e.message)
                 }
-
             }
         }
     }
